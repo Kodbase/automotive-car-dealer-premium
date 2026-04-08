@@ -1,0 +1,45 @@
+import { NextResponse } from 'next/server'
+import { sendContactEmail } from '@/lib/server/email-service'
+
+export async function POST(req) {
+  try {
+    const { name, email, message } = await req.json()
+
+    // Basit validasyon
+    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+      return NextResponse.json(
+        { error: 'Tüm alanlar zorunludur.' },
+        { status: 400 }
+      )
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Geçerli bir e-posta adresi girin.' },
+        { status: 400 }
+      )
+    }
+
+    const { ok } = await sendContactEmail({
+      name: name.trim(),
+      email: email.trim(),
+      message: message.trim(),
+    })
+
+    if (!ok) {
+      return NextResponse.json(
+        { error: 'Mesaj gönderilemedi. Lütfen tekrar deneyin.' },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json({ success: true })
+  } catch (err) {
+    console.error('Contact API hatası:', err)
+    return NextResponse.json(
+      { error: 'Beklenmeyen bir hata oluştu.' },
+      { status: 500 }
+    )
+  }
+}

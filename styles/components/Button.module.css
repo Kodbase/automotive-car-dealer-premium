@@ -1,0 +1,128 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Variants */
+.primary {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: var(--shadow-brand);
+}
+
+.primary:hover {
+  background: var(--brand-dark);
+  box-shadow: 0 8px 28px rgba(249, 115, 22, 0.40);
+  transform: translateY(-1px);
+}
+
+.secondary {
+  background: var(--bg-secondary);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+}
+
+.secondary:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: var(--brand-subtle);
+}
+
+.outline {
+  background: transparent;
+  color: var(--brand);
+  border: 1.5px solid var(--brand);
+}
+
+.outline:hover {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: var(--shadow-brand);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+}
+
+.ghost:hover {
+  background: var(--bg-tertiary);
+  color: var(--text);
+}
+
+.danger {
+  background: #ef4444;
+  color: #fff;
+}
+
+.danger:hover {
+  background: #dc2626;
+}
+
+/* Sizes */
+.sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+}
+
+.md {
+  padding: 0.65rem 1.375rem;
+  font-size: 0.875rem;
+}
+
+.lg {
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+}
+
+.xl {
+  padding: 1.1rem 2.25rem;
+  font-size: 1.0625rem;
+}
+
+/* Full width */
+.fullWidth {
+  width: 100%;
+}
+
+/* Loading spinner */
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.spinnerDark {
+  border-color: rgba(0, 0, 0, 0.15);
+  border-top-color: var(--text);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

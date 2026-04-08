@@ -1,0 +1,39 @@
+.card {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.noPadding { padding: 0; }
+.sm { padding: 1rem; }
+.md { padding: 1.5rem; }
+.lg { padding: 2rem; }
+
+.hover:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-dark);
+  transform: translateY(-2px);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.selected {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.selected::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--brand);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}

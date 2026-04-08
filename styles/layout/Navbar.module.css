@@ -1,0 +1,325 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: var(--nav-height);
+  transition: background var(--transition-slow), box-shadow var(--transition-slow);
+}
+
+.navScrolled {
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid var(--border);
+}
+
+.navTransparent {
+  background: transparent;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--section-padding-x);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+}
+
+.logoIconAccent {
+  position: absolute;
+  inset: 0;
+  background: var(--brand);
+  border-radius: var(--radius-sm);
+  transform: rotate(6deg);
+  transition: transform var(--transition);
+}
+
+.logo:hover .logoIconAccent {
+  transform: rotate(12deg);
+}
+
+.logoIconMain {
+  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--text);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  color: var(--bg);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.logoName {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logoTitle {
+  font-size: 0.9375rem;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.03em;
+}
+
+.logoSub {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--brand);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Desktop Links */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.link {
+  position: relative;
+  padding: 0.5rem 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.link:hover {
+  color: var(--text);
+  background: var(--bg-secondary);
+}
+
+.linkActive {
+  color: var(--brand);
+}
+
+.linkActive::after {
+  content: '';
+  position: absolute;
+  bottom: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1rem;
+  height: 0.1875rem;
+  background: var(--brand);
+  border-radius: 100px;
+}
+
+/* Right side */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.iconBtn:hover {
+  background: var(--bg-secondary);
+  color: var(--text);
+}
+
+.langBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1.5px solid var(--border);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.langBtn:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5625rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-brand);
+  margin-left: 0.25rem;
+}
+
+.ctaBtn:hover {
+  background: var(--brand-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(249, 115, 22, 0.40);
+}
+
+.ctaBtn:active {
+  transform: scale(0.97);
+}
+
+/* Mobile */
+.menuBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.menuBtn:hover {
+  background: var(--bg-secondary);
+  color: var(--text);
+}
+
+.mobileMenu {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem var(--section-padding-x);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 49;
+  animation: slideDown 0.2s ease;
+}
+
+.mobileLink {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition: all var(--transition);
+}
+
+.mobileLink:hover {
+  background: var(--bg-secondary);
+  color: var(--text);
+}
+
+.mobileLinkActive {
+  background: var(--brand-subtle);
+  color: var(--brand);
+}
+
+.mobileBottom {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
+  margin-top: 0.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.mobileLangBtn {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+}
+
+.mobileLangBtn:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.mobileCtaBtn {
+  flex: 2;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all var(--transition);
+}
+
+.mobileCtaBtn:hover {
+  background: var(--brand-dark);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .links { display: none; }
+  .right { display: none; }
+  .menuBtn { display: flex; }
+}

@@ -1,0 +1,366 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* ── Header ────────────────────────────── */
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.date {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  text-transform: capitalize;
+}
+
+/* ── Loading / Error ───────────────────── */
+.loadingWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.errorMsg {
+  color: #ef4444;
+  font-size: 0.9rem;
+  padding: 1rem;
+}
+
+/* ── Stat grid ─────────────────────────── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.statCard {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  overflow: hidden;
+}
+
+.statAccent {
+  width: 4px;
+  flex-shrink: 0;
+}
+
+.statBody {
+  padding: 1.125rem 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.statLabel {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 1.625rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.statSub {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* ── Bottom grid ───────────────────────── */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+}
+
+.cardWide {
+  grid-column: 1 / -1;
+}
+
+.cardTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 1.125rem;
+}
+
+/* ── Status list ───────────────────────── */
+.statusList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.statusLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statusLabel {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.statusRight {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1;
+}
+
+.statusBarWrap {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.statusBarFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s ease;
+  min-width: 0;
+}
+
+.statusCount {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 20px;
+  text-align: right;
+}
+
+/* ── Occupancy circle ──────────────────── */
+.occupancyWrap {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.occupancyCircle {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+}
+
+.occupancySvg {
+  width: 100%;
+  height: 100%;
+}
+
+.occupancyInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.occupancyPct {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.occupancyLbl {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+}
+
+.occupancyStats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  flex: 1;
+}
+
+.occStatRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.occStatRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.occStatLabel {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.occStatValue {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── Log list ──────────────────────────── */
+.logList {
+  display: flex;
+  flex-direction: column;
+}
+
+.logRow {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.logRow:last-child {
+  border-bottom: none;
+}
+
+.logDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.logInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.logType {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.logReason {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.logActor {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.logTime {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+}
+
+.emptyMsg {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* ── Responsive ────────────────────────── */
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardWide {
+    grid-column: 1;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,28 @@
+# node modules
+node_modules/
+
+# env dosyaları (gizli bilgiler)
+.env
+.env.local
+.env.*.local
+
+# build çıktıları
+dist/
+build/
+
+# log dosyaları
+logs/
+*.log
+npm-debug.log*
+
+# OS dosyaları
+.DS_Store
+Thumbs.db
+
+# IDE dosyaları
+.vscode/
+.idea/
+
+# cache
+.cache/
+.next/

@@ -1,0 +1,199 @@
+/* ═══════════════════════════════════════════
+   FAQ.module.css — Revive Auto Lab Premium
+   ═══════════════════════════════════════════ */
+
+.section {
+  position: relative;
+  padding: var(--section-padding) var(--section-padding-x);
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.title {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.titleBar {
+  width: 48px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-dark));
+}
+
+/* ── Accordion ── */
+.accordion {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ── Item ── */
+.item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.item:hover {
+  border-color: rgba(249, 115, 22, 0.25);
+}
+
+.itemOpen {
+  border-color: rgba(249, 115, 22, 0.4);
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.1);
+}
+
+/* ── Question button ── */
+.question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.questionNum {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--brand);
+  opacity: 0.7;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  transition: opacity var(--transition);
+}
+
+.itemOpen .questionNum {
+  opacity: 1;
+}
+
+.questionText {
+  flex: 1;
+  font-size: 0.97rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+  transition: color var(--transition);
+}
+
+.itemOpen .questionText {
+  color: var(--brand);
+}
+
+.chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  transition:
+    transform var(--transition),
+    background var(--transition),
+    color var(--transition);
+}
+
+.itemOpen .chevron {
+  transform: rotate(180deg);
+  background: rgba(249, 115, 22, 0.12);
+  color: var(--brand);
+}
+
+/* ── Answer ── */
+.answerWrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.itemOpen .answerWrap {
+  grid-template-rows: 1fr;
+}
+
+.answer {
+  overflow: hidden;
+  padding: 0 1.25rem 0 calc(1.25rem + 1.5rem + 1rem); /* indent past num */
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  /* bottom padding via margin trick */
+  margin-bottom: 0;
+  transition: margin-bottom 0.3s ease, padding-bottom 0.3s ease;
+}
+
+.itemOpen .answer {
+  padding-bottom: 1.1rem;
+}
+
+/* ── Decorative ── */
+.decor {
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ════════════════════════════
+   RESPONSIVE
+════════════════════════════ */
+
+@media (max-width: 600px) {
+  .section {
+    padding: 4rem 1.25rem;
+  }
+
+  .question {
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .answer {
+    padding-left: 1rem;
+  }
+}

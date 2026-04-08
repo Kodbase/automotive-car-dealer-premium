@@ -1,0 +1,907 @@
+/* ═══════════════════════════════════════════════════
+   styles/pages/booking.module.css
+   Revive Auto Lab Premium
+   ═══════════════════════════════════════════════════ */
+
+/* ── Page ── */
+.page {
+  min-height: 100svh;
+  background: var(--bg-secondary);
+  padding: calc(var(--nav-height) + 3rem) var(--section-padding-x) 5rem;
+}
+
+.pageInner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ── Page header ── */
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.pageTitle {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+/* ════════════════════════════
+   STEPPER
+════════════════════════════ */
+
+.stepper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  gap: 0.45rem;
+}
+
+.stepCircle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  position: relative;
+  z-index: 1;
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
+}
+
+.stepActive .stepCircle {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.18);
+}
+
+.stepDone .stepCircle {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+.stepLabel {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-align: center;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.stepActive .stepLabel {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.stepDone .stepLabel {
+  color: var(--text-secondary);
+}
+
+/* Connector line */
+.stepLine {
+  position: absolute;
+  top: 17px;
+  left: calc(50% + 17px);
+  right: calc(-50% + 17px);
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+  transition: background var(--transition-slow);
+}
+
+.stepLineDone {
+  background: var(--brand);
+}
+
+/* ════════════════════════════
+   MAIN CARD
+════════════════════════════ */
+
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+
+.stepBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  background: var(--bg-tertiary);
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.cardBody {
+  padding: 1.75rem;
+  min-height: 300px;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.75rem;
+  border-top: 1px solid var(--border);
+  background: var(--bg-secondary);
+}
+
+/* ════════════════════════════
+   STEP 1 — PACKAGES
+════════════════════════════ */
+
+.packageList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.packageCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem 1rem 1.5rem;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  overflow: hidden;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
+}
+
+.packageCard:hover {
+  border-color: rgba(249, 115, 22, 0.3);
+  transform: translateX(3px);
+}
+
+.packageCardSelected {
+  border-color: var(--brand) !important;
+  background: rgba(249, 115, 22, 0.03);
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.12);
+  transform: translateX(3px);
+}
+
+/* Left accent bar */
+.packageCard::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--border);
+  transition: background var(--transition);
+}
+
+.packageCardSelected::before {
+  background: var(--brand);
+}
+
+.pkgIcon {
+  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: rgba(249, 115, 22, 0.08);
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.packageCardSelected .pkgIcon {
+  transform: scale(1.06) rotate(-4deg);
+}
+
+.pkgInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.pkgName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.pkgDuration {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.pkgPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 0.1rem;
+  flex-shrink: 0;
+}
+
+.pkgCurr {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.pkgPriceVal {
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* ════════════════════════════
+   STEP 2 — LOCATIONS
+════════════════════════════ */
+
+.locationList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.locationCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
+}
+
+.locationCard:hover {
+  border-color: rgba(249, 115, 22, 0.3);
+  transform: translateX(3px);
+}
+
+.locationCardSelected {
+  border-color: var(--brand) !important;
+  background: rgba(249, 115, 22, 0.03);
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.12);
+  transform: translateX(3px);
+}
+
+.locIconWrap {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: rgba(249, 115, 22, 0.1);
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.locInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.locName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.locAddr {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+/* ── Shared checkmark ── */
+.checkMark {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: popIn 0.2s ease;
+}
+
+@keyframes popIn {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+/* ════════════════════════════
+   STEP 3 — DATE & TIME
+════════════════════════════ */
+
+.dateTimeWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+/* Date scroller */
+.dateScrollWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dateScrollLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.dateScroll {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.dateScroll::-webkit-scrollbar {
+  height: 3px;
+}
+
+.dateScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dateScroll::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.datePill {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  min-width: 60px;
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition);
+}
+
+.datePill:hover {
+  border-color: rgba(249, 115, 22, 0.3);
+  transform: translateY(-2px);
+}
+
+.datePillActive {
+  border-color: var(--brand) !important;
+  background: var(--brand);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+.datePillDay   { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.7; }
+.datePillNum   { font-size: 1.2rem;  font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+.datePillMonth { font-size: 0.62rem; font-weight: 600; opacity: 0.7; }
+
+/* Slot grid */
+.slotSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.slotLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.slotGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.6rem;
+}
+
+.slotBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.75rem 0.5rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  font-family: var(--font);
+  transition:
+    border-color var(--transition),
+    background var(--transition),
+    transform var(--transition);
+}
+
+.slotBtn:hover:not(:disabled) {
+  border-color: rgba(249, 115, 22, 0.35);
+  transform: translateY(-2px);
+}
+
+.slotBtnActive {
+  border-color: var(--brand) !important;
+  background: rgba(249, 115, 22, 0.06);
+  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.15);
+  transform: translateY(-2px);
+}
+
+.slotBtnFull {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: var(--bg-tertiary);
+}
+
+.slotTime   { font-size: 0.92rem; font-weight: 700; color: var(--text); }
+.slotRemain { font-size: 0.66rem; color: var(--brand); font-weight: 700; }
+.slotFull   { font-size: 0.66rem; color: var(--text-tertiary); }
+
+/* No slots */
+.noSlots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2.5rem 1rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.noSlots svg {
+  color: var(--text-tertiary);
+  opacity: 0.6;
+}
+
+.noSlots span {
+  font-size: 0.9rem;
+}
+
+.hintText {
+  font-size: 0.88rem;
+  color: var(--text-tertiary);
+  text-align: center;
+  padding: 2.5rem 0;
+}
+
+/* Alt slots */
+.altSlotsWrap {
+  border-top: 1px dashed var(--border);
+  padding-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.altSlotsLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ════════════════════════════
+   STEP 4 — FORM
+════════════════════════════ */
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ════════════════════════════
+   STEP 5 — CONFIRM
+════════════════════════════ */
+
+.confirmWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.confirmCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.confirmRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+
+.confirmRow:last-child {
+  border-bottom: none;
+}
+
+.confirmLabel {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.confirmValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+}
+
+.confirmTotal {
+  background: rgba(249, 115, 22, 0.04);
+}
+
+.confirmTotal .confirmLabel {
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.confirmTotal .confirmValue {
+  font-size: 1.1rem;
+  color: var(--brand);
+}
+
+.confirmNote {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  line-height: 1.65;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+/* ════════════════════════════
+   SUCCESS SCREEN
+════════════════════════════ */
+
+.successWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem 0 1rem;
+  text-align: center;
+}
+
+.successCircle {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.12);
+  border: 2px solid rgba(34, 197, 94, 0.25);
+  color: #22c55e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.successTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.successDesc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  max-width: 380px;
+  line-height: 1.65;
+}
+
+.successCard {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin: 0.25rem 0;
+}
+
+.successActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+
+/* ════════════════════════════
+   ERROR BOX
+════════════════════════════ */
+
+.errorBox {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.errorTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.errorDesc {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* ════════════════════════════
+   SKELETON
+════════════════════════════ */
+
+.skeletonList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skeleton {
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--border) 50%,
+    var(--bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.skeletonPkg  { height: 72px; }
+.skeletonSlot { height: 60px; }
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ════════════════════════════
+   RESPONSIVE
+════════════════════════════ */
+
+@media (max-width: 680px) {
+  .page {
+    padding: calc(var(--nav-height) + 2rem) 1.25rem 4rem;
+  }
+
+  /* Stepper: sadece daire göster, label gizle */
+  .stepLabel {
+    display: none;
+  }
+
+  .cardBody {
+    padding: 1.25rem;
+  }
+
+  .cardHeader,
+  .cardFooter {
+    padding: 1rem 1.25rem;
+  }
+
+  .slotGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 380px) {
+  .slotGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+
+
+
+
+
+
+
+/* ════════════════════════════════════════════════
+   OTP STEP 
+════════════════════════════════════════════════ */
+
+/* ── Step 5: OTP wrap ── */
+.otpWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.otpIcon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.otpDesc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 360px;
+  margin: 0;
+}
+
+.otpFieldWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.otpLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.otpField {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.75rem;
+  text-align: center;
+  color: var(--text);
+  width: 100%;
+  max-width: 280px;
+  font-family: monospace;
+  transition: border-color var(--transition);
+}
+
+.otpField:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: var(--shadow-brand);
+}
+
+.otpField::placeholder {
+  color: var(--text-tertiary);
+  letter-spacing: 0.5rem;
+}
+
+.resendBtn {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: color var(--transition);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.resendBtn:hover:not(:disabled) {
+  color: var(--brand);
+}
+
+.resendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── OTP / form error ── */
+.otpError {
+  font-size: 0.875rem;
+  color: #dc2626;
+  margin: 0;
+  padding: 0.625rem 0.75rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-sm);
+  width: 100%;
+  text-align: center;
+}
+
+[data-theme='dark'] .otpError {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.3);
+  color: #f87171;
+}
