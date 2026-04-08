@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { CONFIG } from '@/constants/config'
 
-export function middleware(request) {
+export function proxy(request) {
   const { pathname } = request.nextUrl
 
   // API ve static dosyaları atla
