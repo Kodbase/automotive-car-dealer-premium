@@ -15,7 +15,7 @@ Gerçek bir işletme için tasarlanmış, production-ready randevu ve yönetim s
 
 Randevu sistemine ihtiyaç duyan herhangi bir küçük işletmeye uyarlanabilecek bir full-stack uygulama. Berber, klinik, araç bakım, spor salonu — slot tabanlı çalışan her sektör için temel alınabilir.
 
-**Demo:** `https://reviveautolab.vercel.app`
+**Demo:** `automotive-car-dealer-premium.vercel.app`
 
 ---
 
@@ -66,8 +66,8 @@ Tailwind yok. Tüm stiller CSS Modules ve CSS variables ile yazıldı — tam ko
 ## Hızlı Başlangıç
 
 ```bash
-git clone https://github.com/kullanici/revive-auto-lab.git
-cd revive-auto-lab
+git clone git@github.com:Kodbase/automotive-car-dealer-premium.git
+cd automotive-car-dealer-premium
 npm install
 ```
 
@@ -82,7 +82,8 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 CONTACT_RECEIVER_EMAIL=info@example.com
 ```
 
-Supabase SQL Editor'da `supabase/migrations/` altındaki dosyaları sırayla çalıştır, ardından `functions.sql`, `triggers.sql`, `rls-policies.sql`.
+Supabase SQL Editor'da `supabase/migrations/` altındaki dosyaları sırayla çalıştır, ardından `functions.sql`, `triggers.sql`, `rls-policies.sql`. 
+Not: Bazı SQL kodları eksik olabilir.
 
 ```bash
 npm run dev
