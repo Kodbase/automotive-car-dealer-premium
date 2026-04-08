@@ -1,50 +1,46 @@
 import { NextResponse } from 'next/server'
 import { processBooking } from '@/lib/engines/booking-engine'
 
-// In-memory rate limiter (IP + email bazlı, 5 istek/dakika)
-// Production'da Upstash Redis ile değiştirin
-const rateLimitMap = new Map()
+let ratelimit = null
 
-function getRateLimitKey(ip, email) {
-  return `${ip}:${email?.toLowerCase()}`
+async function getRateLimiter() {
+  if (ratelimit) return ratelimit
+
+  // Upstash env tanımlıysa gerçek rate limiter kur
+  if (
+    process.env.UPSTASH_REDIS_REST_URL &&
+    process.env.UPSTASH_REDIS_REST_TOKEN
+  ) {
+    const { Ratelimit } = await import('@upstash/ratelimit')
+    const { Redis }     = await import('@upstash/redis')
+
+    ratelimit = new Ratelimit({
+      redis: new Redis({
+        url:   process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      }),
+      limiter: Ratelimit.slidingWindow(5, '1 m'), // 5 istek / 1 dakika
+      analytics: false,
+    })
+  }
+
+  return ratelimit
 }
 
-function isRateLimited(key) {
-  const now = Date.now()
-  const windowMs = 60 * 1000 // 1 dakika
-  const maxRequests = 5
+async function checkRateLimit(ip, email) {
+  const limiter = await getRateLimiter()
 
-  if (!rateLimitMap.has(key)) {
-    rateLimitMap.set(key, { count: 1, resetAt: now + windowMs })
-    return false
-  }
+  // Upstash yoksa (geliştirme ortamı) rate limiting atla
+  if (!limiter) return { limited: false }
 
-  const entry = rateLimitMap.get(key)
+  const key = `book:${ip}:${email?.toLowerCase()}`
+  const { success, remaining } = await limiter.limit(key)
 
-  if (now > entry.resetAt) {
-    rateLimitMap.set(key, { count: 1, resetAt: now + windowMs })
-    return false
-  }
-
-  if (entry.count >= maxRequests) {
-    return true
-  }
-
-  entry.count++
-  return false
+  return { limited: !success, remaining }
 }
-
-// Stale entry temizliği (bellek şişmesini önler)
-setInterval(() => {
-  const now = Date.now()
-  for (const [key, entry] of rateLimitMap.entries()) {
-    if (now > entry.resetAt) rateLimitMap.delete(key)
-  }
-}, 5 * 60 * 1000)
 
 export async function POST(request) {
   try {
-    // IP al
     const ip =
       request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
       request.headers.get('x-real-ip') ||
@@ -58,8 +54,8 @@ export async function POST(request) {
     }
 
     // Rate limit kontrolü
-    const rlKey = getRateLimitKey(ip, email)
-    if (isRateLimited(rlKey)) {
+    const { limited } = await checkRateLimit(ip, email)
+    if (limited) {
       return NextResponse.json(
         { error: 'Çok fazla istek gönderdiniz. Lütfen bir dakika bekleyin.' },
         { status: 429 }
@@ -84,19 +80,19 @@ export async function POST(request) {
     if (!result.success) {
       const statusMap = {
         ACTIVE_BOOKING_EXISTS: 409,
-        PLATE_BLOCKED: 403,
-        SLOT_TIME_PASSED: 400,
-        PACKAGE_NOT_FOUND: 404,
-        LOCATION_NOT_FOUND: 404,
-        SLOT_FULL: 409,
-        BOOKING_FAILED: 500
+        PLATE_BLOCKED:         403,
+        SLOT_TIME_PASSED:      400,
+        PACKAGE_NOT_FOUND:     404,
+        LOCATION_NOT_FOUND:    404,
+        SLOT_FULL:             409,
+        BOOKING_FAILED:        500
       }
 
       return NextResponse.json(
         {
-          error: result.reason,
+          error:            result.reason,
           alternativeSlots: result.alternativeSlots ?? null,
-          blockedUntil: result.blockedUntil ?? null
+          blockedUntil:     result.blockedUntil ?? null
         },
         { status: statusMap[result.reason] ?? 500 }
       )

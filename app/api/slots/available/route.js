@@ -27,8 +27,9 @@ export async function GET(request) {
 
     return NextResponse.json({ slots })
   } catch (error) {
+    console.error('Slots available error:', error)
     return NextResponse.json(
-      { error: error.message },
+      { error: 'Sunucu hatası' },
       { status: 500 }
     )
   }

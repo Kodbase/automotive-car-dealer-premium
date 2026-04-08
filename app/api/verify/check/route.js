@@ -1,11 +1,12 @@
-// app/api/verify/check/route.js
-
 import { NextResponse } from 'next/server'
-import { randomBytes } from 'crypto'
+import { randomBytes, createHash } from 'crypto'
 import supabaseAdmin from '@/lib/server/supabase-admin'
 
-// Session token TTL: 48 saat
 const SESSION_TTL_MS = 48 * 60 * 60 * 1000
+
+function hashToken(token) {
+  return createHash('sha256').update(token).digest('hex')
+}
 
 export async function POST(request) {
   try {
@@ -21,7 +22,6 @@ export async function POST(request) {
 
     const normalizedEmail = email.toLowerCase().trim()
 
-    // Kodu bul — used kontrolü YOK (aynı kodu birden fazla cihazda girebilir)
     const { data: record } = await supabaseAdmin
       .from('verification_codes')
       .select('id, expires_at')
@@ -45,23 +45,24 @@ export async function POST(request) {
       .update({ used: true })
       .eq('id', record.id)
 
-    // 48 saatlik session token üret
+    // Plaintext token üret (client'a gönderilecek)
     const sessionToken = randomBytes(32).toString('hex')
     const expiresAt    = new Date(Date.now() + SESSION_TTL_MS).toISOString()
 
-    // DB'ye kaydet
+    // DB'ye yalnızca hash'lenmiş token kaydet
     await supabaseAdmin
       .from('tracking_sessions')
       .insert({
         email:      normalizedEmail,
-        token:      sessionToken,
+        token:      hashToken(sessionToken), // plaintext asla saklanmaz
         expires_at: expiresAt,
       })
 
+    // Client'a plaintext token gönder (bir kez görülür, DB'de olmaz)
     return NextResponse.json({
       success:      true,
       email:        normalizedEmail,
-      sessionToken,
+      sessionToken, // plaintext — client localStorage'a kaydeder
       expiresAt,
     })
   } catch (error) {
