@@ -5,28 +5,29 @@ import supabaseAdmin from '@/lib/server/supabase-admin'
 export async function GET() {
   try {
     const supabase = await createSupabaseServer()
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (authError || !user) {
       return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 })
     }
 
-    const { data: user, error } = await supabaseAdmin
+    const { data: userData, error } = await supabaseAdmin
       .from('users')
       .select('id, name, email, phone, role, is_verified, created_at')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
 
-    if (error || !user) {
+    if (error || !userData) {
       return NextResponse.json({ error: 'Kullanıcı bulunamadı' }, { status: 404 })
     }
 
-    if (!['staff', 'admin'].includes(user.role)) {
+    if (!['staff', 'admin'].includes(userData.role)) {
       return NextResponse.json({ error: 'Panel erişimi yok' }, { status: 403 })
     }
 
-    return NextResponse.json({ user })
+    return NextResponse.json({ user: userData })
   } catch (err) {
+    console.error('Panel me error:', err)
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
   }
 }

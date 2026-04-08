@@ -1,9 +1,12 @@
-// app/api/tracking/bookings/route.js
-
 import { NextResponse } from 'next/server'
 import supabaseAdmin from '@/lib/server/supabase-admin'
+import { createHash } from 'crypto'
 
-// Yöntem 1: OTP kodu ile doğrulama (yeni giriş)
+function hashToken(token) {
+  return createHash('sha256').update(token).digest('hex')
+}
+
+// OTP kodu ile doğrulama
 async function verifyByOtp(email, code) {
   const { data, error } = await supabaseAdmin
     .from('verification_codes')
@@ -19,13 +22,15 @@ async function verifyByOtp(email, code) {
   return true
 }
 
-// Yöntem 2: Session token ile doğrulama (48 saatlik oturum)
+// Session token ile doğrulama (SHA-256 hash karşılaştırma)
 async function verifyBySessionToken(email, token) {
+  const hashedToken = hashToken(token)
+
   const { data, error } = await supabaseAdmin
     .from('tracking_sessions')
     .select('id, expires_at')
     .eq('email', email)
-    .eq('token', token)
+    .eq('token', hashedToken)
     .gt('expires_at', new Date().toISOString())
     .order('created_at', { ascending: false })
     .limit(1)
@@ -49,7 +54,6 @@ export async function GET(request) {
       )
     }
 
-    // Önce session token dene, yoksa OTP kodu dene
     let valid = false
 
     if (sessionToken) {
@@ -67,7 +71,6 @@ export async function GET(request) {
       )
     }
 
-    // Settings
     const { data: settingsRows } = await supabaseAdmin
       .from('settings')
       .select('key, value')
@@ -75,7 +78,6 @@ export async function GET(request) {
 
     const cancelLimitHours = Number(settingsRows?.[0]?.value ?? 2)
 
-    // Rezervasyonları çek
     const { data: bookings, error } = await supabaseAdmin
       .from('bookings')
       .select(`

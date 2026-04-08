@@ -4,17 +4,16 @@ import supabaseAdmin from '@/lib/server/supabase-admin'
 import { writeLog } from '@/lib/server/log-service'
 
 async function getAdminUser(supabase) {
-  const { data: { session } } = await supabase.auth.getSession()
-  if (!session) return null
+  const { data: { user }, error } = await supabase.auth.getUser()
+  if (error || !user) return null
   const { data } = await supabaseAdmin
     .from('users')
     .select('id, role')
-    .eq('id', session.user.id)
+    .eq('id', user.id)
     .single()
   return data
 }
 
-// Slotları listele
 export async function GET(request) {
   try {
     const supabase = await createSupabaseServer()
@@ -25,7 +24,7 @@ export async function GET(request) {
     }
 
     const { searchParams } = new URL(request.url)
-    const date = searchParams.get('date') // YYYY-MM-DD
+    const date = searchParams.get('date')
 
     let query = supabaseAdmin
       .from('slots')
@@ -47,11 +46,11 @@ export async function GET(request) {
 
     return NextResponse.json({ slots })
   } catch (err) {
+    console.error('Admin slots GET error:', err)
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
   }
 }
 
-// Slot oluştur (tekil veya toplu)
 export async function POST(request) {
   try {
     const supabase = await createSupabaseServer()
@@ -63,7 +62,6 @@ export async function POST(request) {
 
     const { slots, capacity = 3 } = await request.json()
 
-    // slots: string[] — ISO tarih dizisi
     if (!slots || !Array.isArray(slots) || slots.length === 0) {
       return NextResponse.json({ error: 'Geçerli slot dizisi gerekli' }, { status: 400 })
     }
@@ -78,7 +76,6 @@ export async function POST(request) {
       reserved_count: 0,
     }))
 
-    // Çakışanları atla (upsert)
     const { data, error } = await supabaseAdmin
       .from('slots')
       .upsert(rows, { onConflict: 'slot_time', ignoreDuplicates: true })
@@ -95,11 +92,11 @@ export async function POST(request) {
 
     return NextResponse.json({ created: data.length, slots: data })
   } catch (err) {
+    console.error('Admin slots POST error:', err)
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
   }
 }
 
-// Slot sil
 export async function DELETE(request) {
   try {
     const supabase = await createSupabaseServer()
@@ -114,7 +111,6 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'slotId zorunlu' }, { status: 400 })
     }
 
-    // Rezerveli slot silinemez
     const { data: slot } = await supabaseAdmin
       .from('slots')
       .select('id, reserved_count, slot_time')
@@ -149,6 +145,7 @@ export async function DELETE(request) {
 
     return NextResponse.json({ success: true })
   } catch (err) {
+    console.error('Admin slots DELETE error:', err)
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
   }
 }

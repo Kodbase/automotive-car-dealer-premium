@@ -5,16 +5,16 @@ import supabaseAdmin from '@/lib/server/supabase-admin'
 export async function GET(request) {
   try {
     const supabase = await createSupabaseServer()
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (authError || !user) {
       return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 })
     }
 
     const { data: actor } = await supabaseAdmin
       .from('users')
       .select('id, role')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
 
     if (!actor || !['staff', 'admin'].includes(actor.role)) {
@@ -62,7 +62,7 @@ export async function GET(request) {
 
     if (error) {
       console.error('Bookings query error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
     }
 
     return NextResponse.json({

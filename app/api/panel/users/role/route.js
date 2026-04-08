@@ -8,16 +8,16 @@ const VALID_ROLES = ['user', 'staff', 'admin']
 export async function POST(request) {
   try {
     const supabase = await createSupabaseServer()
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (authError || !user) {
       return NextResponse.json({ error: 'Yetkisiz erişim' }, { status: 401 })
     }
 
     const { data: actor } = await supabaseAdmin
       .from('users')
       .select('id, role')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
 
     if (!actor || actor.role !== 'admin') {
@@ -34,7 +34,6 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Geçersiz rol' }, { status: 400 })
     }
 
-    // Kendi rolünü değiştiremesin
     if (userId === actor.id) {
       return NextResponse.json({ error: 'Kendi rolünüzü değiştiremezsiniz' }, { status: 400 })
     }
@@ -66,6 +65,7 @@ export async function POST(request) {
 
     return NextResponse.json({ success: true, userId, role })
   } catch (err) {
+    console.error('Panel users role error:', err)
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
   }
 }

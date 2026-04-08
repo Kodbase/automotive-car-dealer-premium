@@ -33,9 +33,17 @@ export async function POST(request) {
       )
     }
 
-    if (password.length < 8) {
+    if (password.length < 12) {
       return NextResponse.json(
-        { error: 'Şifre en az 8 karakter olmalıdır' },
+        { error: 'Şifre en az 12 karakter olmalıdır' },
+        { status: 400 }
+      )
+    }
+
+    const passwordComplexity = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/
+    if (!passwordComplexity.test(password)) {
+      return NextResponse.json(
+        { error: 'Şifre en az bir büyük harf, bir rakam ve bir özel karakter içermelidir' },
         { status: 400 }
       )
     }

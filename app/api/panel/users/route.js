@@ -3,13 +3,13 @@ import { createSupabaseServer } from '@/lib/server/supabase-server'
 import supabaseAdmin from '@/lib/server/supabase-admin'
 
 async function getAuthUser(supabase) {
-  const { data: { session } } = await supabase.auth.getSession()
-  if (!session) return null
+  const { data: { user }, error } = await supabase.auth.getUser()
+  if (error || !user) return null
 
   const { data } = await supabaseAdmin
     .from('users')
     .select('id, role')
-    .eq('id', session.user.id)
+    .eq('id', user.id)
     .single()
 
   return data
@@ -49,6 +49,7 @@ export async function GET(request) {
       pagination: { page, limit, total: count, pages: Math.ceil(count / limit) }
     })
   } catch (err) {
+    console.error('Panel users error:', err)
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 })
   }
 }
