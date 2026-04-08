@@ -2,7 +2,7 @@ import './globals.css'
 import { CONFIG } from '@/constants/config'
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
   title: {
     default: 'Revive Auto Lab | Premium Araç Bakım',
     template: '%s | Revive Auto Lab',
