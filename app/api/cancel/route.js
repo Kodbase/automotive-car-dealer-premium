@@ -5,8 +5,6 @@ import supabaseAdmin from '@/lib/server/supabase-admin'
 import { writeLog } from '@/lib/server/log-service'
 import { sendCancellationEmail } from '@/lib/server/email-service'
 
-
-
 const VALID_REASONS = [
   'müşteri gelmedi',
   'araç sorunlu',
@@ -129,17 +127,42 @@ export async function POST(request) {
     }
 
     // Log yaz
-    await writeLog({
-      type: 'booking_cancelled',
-      actorId: user.id,
-      targetId: bookingId,
-      reason,
-      metadata: {
-        plate: booking.plate,
-        slotTime: booking.slot_time,
-        cancelledBy: userData.role
+    try {
+      await writeLog({
+        type: 'booking_cancelled',
+        actorId: user.id,
+        targetId: bookingId,
+        reason,
+        metadata: {
+          plate: booking.plate,
+          slotTime: booking.slot_time,
+          cancelledBy: userData.role
+        }
+      })
+    } catch (logErr) {
+      console.error('Log yazılamadı:', logErr)
+    }
+
+    // İptal emaili gönder
+    try {
+      const { data: userEmail } = await supabaseAdmin
+        .from('users')
+        .select('email, name')
+        .eq('id', booking.user_id)
+        .single()
+
+      if (userEmail?.email) {
+        await sendCancellationEmail({
+          to: userEmail.email,
+          name: userEmail.name,
+          plate: booking.plate,
+          slotTime: booking.slot_time,
+          reason
+        })
       }
-    })
+    } catch (emailErr) {
+      console.error('İptal emaili gönderilemedi:', emailErr)
+    }
 
     return NextResponse.json({ success: true, message: 'Rezervasyon iptal edildi' })
 
@@ -150,22 +173,4 @@ export async function POST(request) {
       { status: 500 }
     )
   }
-}
-
-
-
-const { data: userEmail } = await supabaseAdmin
-  .from('users')
-  .select('email, name')
-  .eq('id', booking.user_id)
-  .single()
-
-if (userEmail) {
-  await sendCancellationEmail({
-    to: userEmail.email,
-    name: userEmail.name,
-    plate: booking.plate,
-    slotTime: booking.slot_time,
-    reason
-  })
 }
