@@ -11,7 +11,6 @@ dist/
 build/
 
 # log dosyaları
-logs/
 *.log
 npm-debug.log*
 
